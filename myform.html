@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <style>
+            style.css
+            .label {float: left; width: 120px; }
+            .errorweight { color: red; padding-left: 10px; }
+            .errorcitytemp { color: red; padding-left: 10px; }
+            .errorage { color: red; padding-left: 10px; }
+        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.errorweight').hide();//menyembunyikan error pada form weight
+                $('.errorcitytemp').hide(); //menyembunyikan error pada form city temperature
+                $('.errorage').hide(); //menyembunyikan error pada form age
+                $('.btn').click(function(event){ //class untuk melakukan submission sesuai dengan syarat yang akan ditentukan
+                    var data=$('.weight').val(); //declare variabel untuk value weight
+                    var len=data.length; //declare variabel panjang input
+                    var c; //declare variabel c
+                    for(var i=0;i<len;i++)
+                    {
+                        c=data.charAt(i).charCodeAt(0); //declare value dari variabel c
+                        if(c <48 || c >57) //untuk ASCII selain 48-57 akan ditolak dan error akan dimunculkan
+                        {
+                            $('.errorweight').show();
+                            event.preventDefault(); //form tidak dikembalikan ke kondisi default
+                            break;
+                        }
+                        else 
+                        {
+                            $('.errorweight').hide(); //untuk ASCII 48-57 akan diterima, error disembunyikan, dan form dikembalikan ke kondisi default
+                        }
+                    }
+                    var data=$('.citytemp').val(); //declare variabel untuk value city temperature
+                    var len=data.length; //declare variabel panjang input
+                    var c; //declare variabel c
+                    for(var i=0;i<len;i++)
+                    {
+                        c=data.charAt(i).charCodeAt(0); //declare value dari variabel c
+                        if(c==45 && i==0) //untuk ASCII no.45 yang berupa tanda minus sebanyak 1 kali akan diterima
+                        {
+                            continue;
+                        }
+                        if(c <48 || c >57) //untuk ASCII selain 48-57 akan ditolak dan error akan dimunculkan
+                        {
+                            $('.errorcitytemp').show();
+                            event.preventDefault(); //form tidak dikembalikan ke kondisi default
+                            break;
+                        }
+                        else 
+                        {
+                            $('.errorcitytemp').hide(); //untuk ASCII 48-57 akan diterima, error disembunyikan, dan form dikembalikan ke kondisi default
+                        }
+                    }
+                    var data=$('.age').val(); //declare variable untuk value age
+                    var len=data.length; //declare variabel panjang input
+                    var c=0; //declare value awal variabel c
+                    var age=0; //declare value awal variabel age
+                    var flag=0; //declare value awal variabel flag (untuk memberikan checkpoint pada persyaratan)
+                    for(var i=0;i<len;i++)
+                    {
+                        c=data.charAt(i).charCodeAt(0); //declare value dari variabel c
+                        if(c <48 || c >57) //untuk ASCII selain 48-57 akan ditolak dan error akan dimunculkan
+                        {
+                        $('.errorage').show();
+                        flag=1; //untuk kondisi ASCII selain 48-57 nilai flag akan menjadi 1
+                        event.preventDefault(); //form tidak dikembalikan ke kondisi default
+                        break;
+                    }
+                    else
+                    {
+                        $('.errorage').hide(); //untuk ASCII 48-57 akan diterima, error disembunyikan, dan nilai flag tetap 0 sehingga melanjutkan ke syarat berikutnya
+                    }
+                }
+                if(flag==0) //jika nilai flah masih 0 dari persyaratan yang sebelumnya telah dilalui maka berlanjut ke syarat ke dua
+                    {
+                        age=parseInt(data); //mengubah input age dari string menjadi integer
+                        if(age<5 || age>99) //untuk usia dibawah 5 dan diatas 99 akan ditolak dan error akan dimunculkan
+                        {
+                            $('.errorage').show();
+                            $('.errorage').text('Invalid Age. Please enter the age within the range 5 to 99');
+                            event.preventDefault(); //form tidak dikembalikan ke kondisi default
+                        }
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container" style="background-color:cadetblue;">
+            <h2 class="text-center"> Bariqi Raihan Daffa/05211940000018 </h2>
+            <h4 class="text-center">Validating a Numerical Field</h4>
+            <form id="signup" method="post" action="">
+            <div class="form-group">
+                <span class="label">Weight: (Allowing only numerical values)</span>
+                <input type="text" class="weight form-control" placeholder="Enter your body weight" name="weight"
+                /><span class="errorweight"> Only numerical allowed! </span>
+            </div>
+            
+            <div class="form-group"><span class="label">City temperature: (Allowing negative values)</span>
+                <input type="text" class="citytemp form-control" placeholder="Enter your city temperature monthly average" name="citytemp"
+                /><span class="errorcitytemp"> Only numerical allowed! </span>
+            </div>
+            
+            <div class="form group"><span class="label">Age: (Allowing a range of values)</span>
+                <input type="text" class="age form-control" placeholder="Enter your age" name="age"
+                /><span class="errorage"> Only numerical allowed! </span>
+            </div>
+            <br>
+            <input class="btn btn-primary btn-block" type="submit" value="Submit">
+            <br>
+           </form>
+        </div>
+    </body>
+</html>
