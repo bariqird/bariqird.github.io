@@ -1,0 +1,384 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link href='https://fonts.googleapis.com/css?family=Bowlby One SC' rel='stylesheet'>         
+        <style>
+            input[type="number"] {
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+            }
+
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            }
+
+            .number-input {
+            border: 2px solid #ddd;
+            display: inline-flex;
+            }
+
+            .number-input,
+            .number-input * {
+              box-sizing: border-box;
+            }
+
+            .number-input button {
+              outline:none;
+              -webkit-appearance: none;
+              background-color: transparent;
+              border: none;
+              align-items: center;
+              justify-content: center;
+              width: 3rem;
+              height: 3rem;
+              cursor: pointer;
+              margin: 0;
+              position: relative;
+            }
+
+            .number-input button:before,
+            .number-input button:after {
+              display: inline-block;
+              position: absolute;
+              content: '';
+              width: 1rem;
+              height: 2px;
+              background-color: black;
+              transform: translate(-50%, -50%);
+            }
+            .number-input button.plus:after {
+              transform: translate(-50%, -50%) rotate(90deg);
+            }
+
+            .number-input input[type=number] {
+              font-family: sans-serif;
+              max-width: 5rem;
+              padding: .5rem;
+              border: solid #ddd;
+              border-width: 0 2px;
+              font-size: 2rem;
+              height: 3rem;
+              font-weight: bold;
+              text-align: center;
+            }
+
+            .errorname { color: red; padding-left: 10px; }
+            .errorpnumber { color: red; padding-left: 10px; }
+            .erroraddress { color: red; padding-left: 10px; }
+        </style>
+        <script>
+            $(document).ready(function(event){
+                $('.errorname').hide();
+                $('.errorpnumber').hide();
+                $('.erroraddress').hide();
+                $('.errororder').hide();
+                $('.corder').click(function(event){
+                    var data=$('.name').val();
+                    var len=data.length;
+                    if(len<1)
+                    {
+                        $('.errorname').show();
+                        event.preventDefault();
+                    }
+                    else
+                    {
+                        $('.errorname').hide();
+                    }
+
+                    var data=$('.pnumber').val();
+                    if(validate_pnumber(data))
+                    {
+                        $('.errorpnumber').hide();
+                    }
+                    else
+                    {
+                        $('.errorpnumber').show();
+                        event.preventDefault();
+                    }
+
+                    var data=$('.address').val();
+                    var len=data.length;
+                    if(len<1)
+                    {
+                        $('.erroraddress').show();
+                        event.preventDefault();
+                    }
+                    else
+                    {
+                        $('.erroraddress').hide();
+                    }
+                    $('.quantity').each(function(){
+                        var sum = $(this).val();
+                        if($('.quantity')!==0)
+                        {
+                            $('.errororder').hide();
+                        }
+                        else
+                        {
+                            $('.errororder').show();
+                            event.preventDefault();
+                        }
+                    });
+
+                });
+            });
+
+            function validate_pnumber(ph)
+            {
+                var pattern=new RegExp(/^[0-9-+]+$/);
+                return pattern.test(ph);
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid">
+        <nav class="navbar bg-danger navbar-light fixed-top">
+            <a class="navbar-brand" href="index.html">
+                <img src="ecd1.png" alt="home" style="width:40px;">
+            </a>
+        </nav>
+        </div>
+        <div class="container-fluid">
+            <div class="jumbotron jumbotron-fluid bg-light">
+                <div class="container">
+                    <h1 class="display-2 text-center font-weight-bold" style="color: #FFC72C; font-size:75px; font-family: 'Bowlby One SC'">Order Now</h1>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+                            How to Order?
+                          </button>
+                        
+                          <!-- The Modal -->
+                          <div class="modal" id="myModal">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                              
+                                <!-- Modal Header -->
+                                <div class="modal-header bg-warning">
+                                  <h4 class="modal-title">How to Order?</h4>
+                                </div>
+                                
+                                <!-- Modal body -->
+                                <div class="modal-body text-left">
+                                  1. Mengisi nama asli dari pembeli
+                                  <br>
+                                  2. Mengisi nomor telepon yang aktif dengan format +62-xxx-xxxx-xxxx
+                                  <br>
+                                  3. Mengisi alamat pengiriman pesanan
+                                  <br>
+                                  4. Pilih menu dan jumlah porsi yang diinginkan
+                                  <br>
+                                  5. Klik tombol Confirm Order yang terletak dibagian bawah
+                                  <br>
+                                  6. Pesanan akan kami siapkan dan antarkan ke alamat pengiriman
+                                </div>
+                                
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                                </div>
+                                
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h2>Order Form</h2>
+                    <form action="" method="post">
+                      <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="name form-control" id="name" placeholder="Enter your name" name="name">
+                        <span class="errorname">PLEASE INPUT YOUR NAME!</span>
+                      </div>
+                      <div class="form-group">
+                        <label for="pwd">Phone number</label>
+                        <input type="text" class="pnumber form-control" id="pnumber" placeholder="+62-xxx-xxxx-xxxx" name="pnumber">
+                        <span class="errorpnumber">INVALID PHONE NUMBER!</span>
+                      </div>
+                      <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="address form-control" id="address" placeholder="Enter your address" name="address">
+                        <span class="erroraddress">PLEASE INPUT YOUR ADDRESS!<span>
+                      </div>
+                    </form>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">Panas</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="panas1.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>32.000</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">EcSpicy</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="mspicy.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>36.000</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">EcChicken</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="mcchicken.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>28.500</h1>
+                      <div class="text-center">
+                      <div class="number-input">
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                        <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                      </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">Chicken EcMuffin</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="chicken_mcmuffin.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>15.000</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">EcNugget</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="mcnugget.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>37.000</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">EcFlurry</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="mcflurry.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>11.000</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">Orange EcFloat</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="orange_mcfloat.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>14.500</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header bg-warning">
+                      <h4 class="container my-0 font-weight-bold text-center">Raspberry EcFloat</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <img src="raspberry_mcfloat.png" class="mx-auto d-block" height="200px">
+                        </ul>
+                      <h1 class="container card-title pricing-card-title"><small class="text-muted">IDR</small>14.500</h1>
+                      <div class="text-center">
+                        <div class="number-input">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+                          <input class="quantity" min="0" name="quantity" max="99" value="0" type="number">
+                          <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <span class="errororder">PLEASE INPUT YOUR NAME!</span>
+            <input class="corder btn btn-lg btn-block btn-outline-warning" type="submit" value="Confirm Order">
+            <br>
+            <br>
+        </div>  
+    </body>
+</html>
